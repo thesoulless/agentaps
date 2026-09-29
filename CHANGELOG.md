@@ -8,6 +8,7 @@ Notable changes to Agentaps are recorded here.
 
 - CI checks that the devenv shell starts on Linux and macOS.
 - `agentaps --version` prints the installed version without opening the desktop app.
+- Quit Agentaps from the macOS app menu or with Cmd+Q, and with Ctrl+Q on Linux. Quitting saves sessions first.
 
 ### Fixed
 

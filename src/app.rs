@@ -109,7 +109,7 @@ fn move_sidebar_id(order: &mut Vec<u64>, dragged: u64, target: u64) -> bool {
     true
 }
 
-actions!(workspace, [QuickOpen]);
+actions!(workspace, [QuickOpen, Quit]);
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 struct SessionLocation {
@@ -2028,6 +2028,15 @@ pub(crate) fn run() {
             cx.bind_keys([KeyBinding::new("cmd-p", QuickOpen, None)]);
             #[cfg(not(target_os = "macos"))]
             cx.bind_keys([KeyBinding::new("ctrl-p", QuickOpen, None)]);
+            cx.on_action(|_: &Quit, cx| cx.quit());
+            #[cfg(target_os = "macos")]
+            {
+                cx.bind_keys([KeyBinding::new("cmd-q", Quit, None)]);
+                cx.set_menus([gpui_kit::Menu::new("Agentaps")
+                    .items([gpui_kit::MenuItem::action("Quit Agentaps", Quit)])]);
+            }
+            #[cfg(not(any(target_os = "macos", target_os = "windows")))]
+            cx.bind_keys([KeyBinding::new("ctrl-q", Quit, None)]);
             theme::apply(cx);
             let bounds = Bounds::centered(None, size(px(1200.), px(760.)), cx);
             gpui_kit::open_window(
